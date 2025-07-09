@@ -47,12 +47,13 @@ input[type="text"], input[type="password"], textarea {
   background: #fffbf8;
 }
 
-button {
+button, a.button {
   background: #e3c9c1; color: #5a4e4d;
   border: none; padding: 8px 16px; border-radius: 6px;
   cursor: pointer; transition: background 0.3s;
 }
-button:hover { background: #d3b6ae; }
+button:hover {
+    background: #d3b6ae; }
 
 .post-list, .comment-list {
   list-style: none; padding: 0;
@@ -82,7 +83,8 @@ button:hover { background: #d3b6ae; }
 }
 
 .form-container input[type="text"],
-.form-container input[type="password"] {
+.form-container input[type="password"],
+.form-container textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 8px;

@@ -1,6 +1,8 @@
 package com.leeej.simple_board.controller;
 
+import com.leeej.simple_board.dto.CommentDto;
 import com.leeej.simple_board.dto.PostDto;
+import com.leeej.simple_board.model.Comment;
 import com.leeej.simple_board.model.Post;
 import com.leeej.simple_board.model.User;
 import com.leeej.simple_board.repository.CommentRepository;
@@ -11,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -65,5 +64,53 @@ public class PostController {
 
         return "redirect:/posts";
     }
+
+    @GetMapping("/{id}")
+    public String detail (
+            @PathVariable Integer id,
+            Model model,
+            HttpSession httpSession
+    ) {
+        Post post = postRepository.findById(id).orElseThrow();
+
+        model.addAttribute("post", post);
+        model.addAttribute("commentDto", new CommentDto());
+
+        return "post-detail";
+    }
+
+    @PostMapping("/{postId}/comments")
+    public String addComment(
+            @PathVariable Integer postId,
+            @Valid @ModelAttribute CommentDto commentDto,
+            BindingResult bindingResult,
+            HttpSession httpSession,
+            Model model
+    ) {
+        Post post = postRepository.findById(postId).orElseThrow();
+
+        User user = currentUser(httpSession);
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("post", post);
+
+            return "post-detail";
+        }
+
+        Comment comment = Comment.builder()
+                .post(post)
+                .author(user)
+                .text(commentDto.getText())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        commentRepository.save(comment);
+
+        return "redirect:/posts/" + postId;
+    }
+
 
 }

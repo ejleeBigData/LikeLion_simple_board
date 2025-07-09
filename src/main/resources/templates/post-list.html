@@ -6,12 +6,18 @@
   <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body class="container">
+<p>
+  <a th:href="@{/}">🏠홈</a>
+
+  <a th:href="@{/logout}" th:if="${session.user == null}">로그인</a>
+  <a th:href="@{/logout}" th:if="${session.user == null}">회원가입</a>
+  <a th:href="@{/logout}" th:if="${session.user != null}" class="cancel">로그아웃</a>
+</p>
 <h1>✍🏿 게시글 목록</h1>
 <p>
   <a th:href="@{/posts/add}">
     <button>➕ 새 글</button>
   </a>
-  <a th:href="@{/logout}"><button class="cancel">로그아웃</button></a>
 </p>
 <ul class="post-list">
   <li th:each="post: ${posts}">
