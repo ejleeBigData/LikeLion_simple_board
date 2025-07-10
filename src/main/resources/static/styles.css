@@ -30,17 +30,6 @@ h1, h2 {
 a { color: #7daea3; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/*
-.form-container, .post, .comment {
-  background: #fffdf5;
-  border: 1px solid #e3c9c1;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-*/
-
 input[type="text"], input[type="password"], textarea {
   width: 100%; padding: 8px; margin: 8px 0;
   border: 1px solid #d3b8ae; border-radius: 6px;
